@@ -88,7 +88,7 @@ void copy_roi(const char* s, char* d, v3 size_s, v3 size_d, v3 start_roi_s, v3 s
             dd += size_d.x;
         }
         ss += size_s.x * (size_s.y - size_overlap.y);
-        
+        dd += size_d.x * (size_d.y - size_roi.y);
     }
     for (int z = end_overlap_d.z; z < end_roi_d.z; z++) {
         for (int y = start_roi_d.y; y < end_roi_d.y; y++) {
