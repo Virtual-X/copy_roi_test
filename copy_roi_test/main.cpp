@@ -6,7 +6,11 @@
 //  Copyright © 2017 Igor Beati. All rights reserved.
 //
 
+
+#include "compress.h"
+
 #include <iostream>
+
 
 int main(int argc, const char * argv[]) {
     // insert code here...
