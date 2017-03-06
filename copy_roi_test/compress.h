@@ -26,15 +26,14 @@ void compress_rois(const T* s, T* d, T* roi_temp, v3 size_s, uint32_t* inout_siz
         for (int y = 0; y < n.y; y++) {
             for (int x = 0; x < n.x; x++) {
                 copy_roi(s, roi_temp, size_s, size_roi, { x * size_roi.x, y * size_roi.y , z * size_roi.z }, { 0, 0, 0 }, size_roi);
-                long u = (dd - d);
-                uint32_t l = *inout_size_d - u;
+                uint32_t l = *inout_size_d - (uint32_t)(dd - d);
                 compress_roi(roi_temp, dd, size_roi, &l, p);
                 dd += l;
                 *rs++ = l;
             }
         }
     }
-    *inout_size_d = dd - d;
+    *inout_size_d = (uint32_t)(dd - d);
 }
 
 

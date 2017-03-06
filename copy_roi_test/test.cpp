@@ -47,24 +47,27 @@ static void decompress_roi(const float* roi_s, float* roi_d, uint32_t size_rois_
 
 void test()
 {
-//    const v3 size_s{ 100, 64, 10 };
-//    const v3 size_roi{ 32, 32, 3 };
-    const v3 size_s{ 10, 6, 3 };
-    const v3 size_roi{ 4, 3, 2 };
+    const v3 size_s{ 100, 64, 10 };
+    const v3 size_roi{ 32, 32, 3 };
+//    const v3 size_s{ 10, 6, 3 };
+//    const v3 size_roi{ 4, 3, 2 };
     const uint32_t size = size_s.x * size_s.y * size_s.z;
     float s[size];
     for (size_t i = 0; i < size; i++) {
-        s[i] = (float)(i / (double)size);
+        s[i] = (float)(((i * 777) % size) / (double)size);
     }
     float d[size * 3];
     float r[size];
     float temp[size_roi.x * size_roi.y * size_roi.z];
     
+    (void)&compress_roi;
+    (void)&compress_roi_x;
+    
     uint32_t size_d = size * 3;
     compress_rois<float, void>(s, d, temp, size_s, &size_d, size_roi, &compress_roi, nullptr);
 
     decompress_rois<float, void>(d, r, temp, size_d, size_s, size_roi, &decompress_roi, nullptr);
-    size_t n = size;
+    size_t n = 10;
     for (size_t i = 0; i < n; i++) {
         std::cout << (int)(s[i] * 1000) << " ";
         if ((i + 1) % size_s.x == 0) {
@@ -84,5 +87,6 @@ void test()
             }
         }
     }
+    std::cout << std::endl;
     assert(memcmp(s, r, size * 4) == 0);
 }
