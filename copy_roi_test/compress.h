@@ -16,12 +16,12 @@
 
 
 template<typename T, class Param>
-void compress_rois(const T* s, T* d, T* roi_temp, v3 size_s, uint32_t* inout_size_d, v3 size_roi,
-                   void(*compress_roi)(const T* roi_s, T* roi_d, v3 size_roi_s, uint32_t* inout_size_roi_d, const Param* p), const Param* p)
+void compress_rois(const T* s, char* d, T* roi_temp, v3 size_s, uint32_t* inout_size_d, v3 size_roi,
+                   void(*compress_roi)(const T* roi_s, char* roi_d, v3 size_roi_s, uint32_t* inout_size_roi_d, const Param* p), const Param* p)
 {
     v3 n{ (size_s.x + size_roi.x - 1) / size_roi.x, (size_s.y + size_roi.y - 1) / size_roi.y, (size_s.z + size_roi.z - 1) / size_roi.z };
     uint32_t* rs = (uint32_t*)d;
-    T* dd = (T*)(rs + n.x * n.y * n.z);
+    char* dd = (char*)(rs + n.x * n.y * n.z);
     for (int z = 0; z < n.z; z++) {
         for (int y = 0; y < n.y; y++) {
             for (int x = 0; x < n.x; x++) {
@@ -38,12 +38,12 @@ void compress_rois(const T* s, T* d, T* roi_temp, v3 size_s, uint32_t* inout_siz
 
 
 template<typename T, class Param>
-void decompress_rois(const T* s, T* d, T* roi_temp, uint32_t size_s, v3 size_d, v3 size_roi,
-                     void(*decompress_roi)(const T* roi_s, T* roi_d, uint32_t size_rois_s, v3 size_roi_d, const Param* p), const Param* p)
+void decompress_rois(const char* s, T* d, T* roi_temp, uint32_t size_s, v3 size_d, v3 size_roi,
+                     void(*decompress_roi)(const char* roi_s, T* roi_d, uint32_t size_rois_s, v3 size_roi_d, const Param* p), const Param* p)
 {
     v3 n{ (size_d.x + size_roi.x - 1) / size_roi.x, (size_d.y + size_roi.y - 1) / size_roi.y, (size_d.z + size_roi.z - 1) / size_roi.z };
     const uint32_t* rs = (const uint32_t*)s;
-    T* ss = (T*)(rs + n.x * n.y * n.z);
+    char* ss = (char*)(rs + n.x * n.y * n.z);
     for (int z = 0; z < n.z; z++) {
         for (int y = 0; y < n.y; y++) {
             for (int x = 0; x < n.x; x++) {
